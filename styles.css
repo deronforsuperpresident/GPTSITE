@@ -1,0 +1,135 @@
+/* Reset box sizing and remove default margins */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Body background and base font */
+body {
+  font-family: 'Open Sans', sans-serif;
+  background: linear-gradient(135deg, #ffecd2, #fcb69f);  /* Peachy orange gradient background */
+  overflow-x: hidden;  /* Prevent horizontal scroll from off-screen elements */
+  padding-bottom: 50px; /* Space at bottom so last message isn’t cut off */
+}
+
+/* Header styling */
+.chat-header {
+  text-align: center;
+  padding: 10px 20px;
+  /* Optionally, add a background color to the header for emphasis:
+     background: #ffb74d;  */
+}
+.chat-header h1 {
+  font-family: 'Bangers', cursive;
+  font-size: 2em;
+  color: #333;
+}
+
+/* Chat container (limits width and centers it on wide screens) */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 90%;
+  max-width: 600px;
+  margin: 10px auto;
+  position: relative;
+  z-index: 1;  /* Position chat above falling burgers */
+}
+
+/* Individual message container */
+.message {
+  display: block;
+  max-width: 80%;           /* Max width of a message bubble */
+  margin: 8px 0;
+  opacity: 0;               /* Hidden by default (for animation) */
+  transform: translateY(20px);
+  transition: all 0.5s ease-out;
+}
+/* Alignment for messages from different sides */
+.message.left {
+  align-self: flex-start;   /* Stick to left side */
+  transform: translateX(-30px) translateY(20px);  /* slide in from left */
+}
+.message.right {
+  align-self: flex-end;     /* Stick to right side */
+  transform: translateX(30px) translateY(20px);   /* slide in from right */
+}
+/* When a message becomes visible (triggered by JS) */
+.message.visible {
+  opacity: 1;
+  transform: translateX(0) translateY(0);
+}
+
+/* Name label above each message text */
+.name {
+  font-size: 0.85em;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+/* Color-code for different usernames (left side participants) */
+.name.jvdxn__       { color: #1E88E5; }  /* blue for jvdxn__ */
+.name.snocopp       { color: #8E24AA; }  /* purple for snocopp */
+.name.andrew_spiegel7 { color: #43A047; }/* green for andrew_spiegel7 */
+.name.cz-morris     { color: #E91E63; }  /* pink for cz.morris */
+/* Right-side (author) name – white, since on colored bubble */
+.message.right .name {
+  color: #fff;
+}
+
+/* Chat bubble text content */
+.text {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 16px;
+  word-wrap: break-word;    /* Wrap long text within bubble */
+}
+/* Left-side bubbles: gray background, black text */
+.message.left .text {
+  background: #e0e0e0;
+  color: #000;
+  /* Flatten the left side of bubble for a "tail" effect */
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+/* Right-side bubbles: orange background, white text */
+.message.right .text {
+  background: #ff5722;
+  color: #fff;
+  /* Flatten the right side of bubble for a "tail" effect */
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+/* FALLING BURGER ANIMATION STYLES */
+.burger-container {
+  pointer-events: none;  /* burgers are decorative – clicks pass through */
+}
+/* Base style for burger emojis that will fall */
+.burger-fall {
+  position: fixed;
+  top: -50px;           /* start slightly above the viewport */
+  /* left position and size will be set per element below */
+}
+/* Keyframes for burgers falling and spinning */
+@keyframes fall {
+  0%   { top: -50px; transform: rotate(0deg); }
+  100% { top: 100vh; transform: rotate(360deg); }
+}
+/* Individual burger settings (position, size, speed, delay) */
+.burger-container .burger-fall:nth-child(1) {
+  left: 15%;
+  font-size: 50px;
+  animation: fall 7s linear infinite 0s;
+}
+.burger-container .burger-fall:nth-child(2) {
+  left: 50%;
+  font-size: 60px;
+  animation: fall 9s linear infinite 2s;
+}
+.burger-container .burger-fall:nth-child(3) {
+  left: 85%;
+  font-size: 45px;
+  animation: fall 11s linear infinite 4s;
+}
